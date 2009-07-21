@@ -1,0 +1,40 @@
+mock-wi
+
+Some hacks to get WebKit's Web Inspector to run as a plain old web page
+
+Patrick Mueller
+pmuellr@yahoo.com
+2009/07/21
+
+The basic idea here is that for some types of work that you can do to Web
+Inspector, it's just as easy to do them treating Web Inspector as a plain
+old web page.  This rules out a lot of types of work, for instance anything
+that (currently) involves having a web page, scripts, etc loaded.  Basically,
+testing the initial empty layout is all you can do now.  But sometimes that's
+good enough.
+
+In the future, I'd like to see if this can be enhanced to fooling the Web
+Inspector code into believing it actually is running, by making calls back
+into the code itself to tell it that it loaded files, resources, scripts,
+etc.  We'll see.
+
+To use this:
+
+- run the create-links.py script to create links to WebKit directories in the
+  current directory. 
+ 
+- edit the front-end/inspector.html file and add the line
+     <script type="text/javascript" src="../mock-wi.js"></script>
+  before any of the other script elements.  Note that this is modifying the
+  inspector.html file in your base WebKit directory - you won't want to
+  include this on any patches!  It's safe to run Web Inspector with WebKit
+  this way; the file won't be found and thus will be ignored.
+ 
+- launch the mock Web Inspector by opening the file mock-wi.html; this
+  redirects to front-end/inspector.html, but I've had better luck going
+  through the redirect logic than opening inspector.html directly; the links
+  interpreted differently somehow.
+
+Questions, suggestions, etc: 
+
+   http://github.com/pmuellr/mock-wi/tree/master
